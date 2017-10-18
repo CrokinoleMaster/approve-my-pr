@@ -1,38 +1,15 @@
 const React = require('react')
 const Octokat = require('octokat')
+
+const parseURL = require('../lib/parse-url')
 const username = process.env.USER_NAME
 const password = process.env.PASSWORD
-
-function parseURL(url) {
-    var parser = document.createElement('a'),
-        searchObject = {},
-        queries,
-        split,
-        i
-    // Let the browser do the work
-    parser.href = url
-    // Convert query string to object
-    queries = parser.search.replace(/^\?/, '').split('&')
-    for (i = 0; i < queries.length; i++) {
-        split = queries[i].split('=')
-        searchObject[split[0]] = split[1]
-    }
-    return {
-        protocol: parser.protocol,
-        host: parser.host,
-        hostname: parser.hostname,
-        port: parser.port,
-        pathname: parser.pathname,
-        search: parser.search,
-        searchObject: searchObject,
-        hash: parser.hash
-    }
-}
 
 export default class extends React.Component {
     constructor(props) {
         super(props)
         this.onChangeURL = this.onChangeURL.bind(this)
+        this.approvePR = this.approvePR.bind(this)
         this.state = {
             url: ''
         }
@@ -50,12 +27,24 @@ export default class extends React.Component {
 
     render() {
         const { url } = this.state
-        return <input type="text" onChange={this.onChangeURL} url={url} />
+        return (
+            <section>
+                <input type="text" onChange={this.onChangeURL} url={url} />
+                <button onClick={this.approvePR}>APPROVE</button>
+            </section>
+        )
     }
 
     onChangeURL(e) {
         this.setState({
             url: e.target.value
         })
+    }
+
+    approvePR() {
+        const { octo } = this.props
+        const { url } = this.state
+        const urlObj = parseURL(url)
+        console.log(urlObj)
     }
 }
