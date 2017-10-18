@@ -1,8 +1,14 @@
 const fastify = require('fastify')()
+const cors = require('cors')
 const Octokat = require('octokat')
 
-// Declare a route
-fastify.get('/', function(request, reply) {
+fastify.use(cors())
+fastify.get('/', async (request, reply) => {
+    reply.send({ hello: 'world' })
+})
+
+fastify.post('/approve', async (request, reply) => {
+    console.log(request.body)
     reply.send({ hello: 'world' })
 })
 

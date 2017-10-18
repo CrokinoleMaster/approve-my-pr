@@ -41,5 +41,16 @@ export default class extends React.Component {
             alert('bad url')
             return
         }
+        window.fetch('http://' + window.location.hostname + ':8000/approve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                owner: routeParams[0],
+                repo: routeParams[1],
+                number: routeParams[3]
+            })
+        })
     }
 }
