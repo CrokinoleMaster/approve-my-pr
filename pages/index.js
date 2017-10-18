@@ -1,9 +1,7 @@
 const React = require('react')
-const Octokat = require('octokat')
 
 const parseURL = require('../lib/parse-url')
-const username = process.env.USER_NAME
-const password = process.env.PASSWORD
+const APPROVE = 'APPROVE'
 
 export default class extends React.Component {
     constructor(props) {
@@ -16,13 +14,7 @@ export default class extends React.Component {
     }
 
     static async getInitialProps({ req }) {
-        const octo = new Octokat({
-            username,
-            password
-        })
-        return {
-            octo
-        }
+        return {}
     }
 
     render() {
@@ -41,10 +33,13 @@ export default class extends React.Component {
         })
     }
 
-    approvePR() {
-        const { octo } = this.props
+    async approvePR() {
         const { url } = this.state
         const urlObj = parseURL(url)
-        console.log(urlObj)
+        const routeParams = urlObj.pathname.replace(/^\/+|\/+$/g, '').split('/')
+        if (urlObj.host !== 'github.com' || routeParams.length !== 4) {
+            alert('bad url')
+            return
+        }
     }
 }

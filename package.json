@@ -6,11 +6,13 @@
     "scripts": {
         "dev": "source .env && next",
         "build": "source .env && next build",
-        "start": "source .env && next start"
+        "start": "source .env && next start",
+        "server": "source .env && node server/app.js"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "fastify": "^0.30.2",
         "net": "^1.0.2",
         "next": "^4.1.0",
         "octokat": "^0.9.2",
